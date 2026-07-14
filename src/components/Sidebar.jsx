@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Home, BookOpen, Lightbulb, Heart, Sparkles, Menu, X, Search, Tag, Trash2 } from 'lucide-react';
+import { useResizable } from '../useResizable'
 
 const Sidebar = ({ activeTab, onTabChange, selectedTag, onTagClick, onGlobalSearch, knowledgeItems = [] }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const { width, startResizing } = useResizable({ defaultWidth: 256, minWidth: 200, maxWidth: 480 });
 
   useEffect(() => {
     const checkMobile = () => {
@@ -196,10 +198,24 @@ const Sidebar = ({ activeTab, onTabChange, selectedTag, onTagClick, onGlobalSear
   }
 
   return (
-    <div className="w-56 bg-white border-r border-amber-900/20 h-screen sticky top-0 flex flex-col shadow-xl">
+    <div
+      className="relative bg-white border-r border-amber-900/20 h-screen sticky top-0 flex flex-col shadow-xl shrink-0"
+      style={{ width: `${width}px` }}
+    >
       {sidebarContent}
+
+      {/* 右边缘拖拽把手 */}
+      <div
+        onMouseDown={startResizing}
+        onDoubleClick={() => {
+          localStorage.removeItem('sidebarWidth')
+          window.location.reload()
+        }}
+        className="absolute top-0 right-0 h-full w-1 cursor-col-resize hover:bg-amber-300 transition-colors z-10"
+      />
     </div>
   );
 };
+
 
 export default Sidebar;
