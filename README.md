@@ -2,19 +2,26 @@
 
 一个简洁优雅的知识卡片管理应用，帮助您收集、整理和连接知识碎片。
 
-> 本项目已从美团 NoCode 平台**完全解耦**，是一个标准的 Vite + React + Supabase 工程，
+🌐 **在线体验**：[notewithprism.com](https://notewithprism.com)
+
+> 📖 项目演进过程见 [DEVLOG.md](./DEVLOG.md)
+
+> 本项目已从 NoCode 平台**完全解耦**，是一个标准的 Vite + React + Supabase 工程，
 > 可在 Trae / VS Code 中继续开发，并部署到 Vercel / Netlify 等任意静态托管平台。
 > **完整的部署与双机(Mac/Windows)协作流程见 [`DEPLOYMENT.md`](./DEPLOYMENT.md)。**
 
 ## 功能特性
 
-- ⚡ 极速收集：顶部输入框一键存入，自动提取标签
+- 📧 邮箱验证注册（Supabase Auth + Resend 自定义域名发信）
+- ⚡ 闪电存入：粘贴长文/Markdown/网页链接一键存入，AI 自动生成摘要并提取标签
+- 🗂️ 新用户自动播种预设笔记，快速上手
 - 🏷️ 关键词自动标签 + 标签筛选
 - 🧱 瀑布流知识集，卡片流式布局
 - 🕸️ 知识图谱：可视化标签与笔记之间的关联
 - 🎲 每日随机漫步：随机回顾旧笔记，可一键查看原文
 - 📝 富文本编辑（TipTap，支持标题/加粗/列表/表格等）
 - 🔍 关键词搜索与高亮
+- 📐 侧边栏宽度可拖拽调节，自动记忆
 - 🔐 用户级数据隔离（Supabase Auth + 行级安全 RLS）
 - 📱 响应式设计
 
@@ -24,8 +31,10 @@
 - Vite
 - Tailwind CSS
 - React Query
-- Supabase (后端数据库)
 - React Router
+- Supabase (后端数据库 + Auth + 行级安全 RLS)
+- Resend (自定义域名邮件发信)
+- Vercel (部署托管 + 自动 HTTPS)
 
 ## 安装和运行
 
@@ -84,13 +93,16 @@ yarn preview
 ## 项目结构
 
 ```
+
 src/
-├── components/       # 可复用组件
-├── lib/              # 工具函数和配置
-├── pages/            # 页面组件
-├── App.jsx           # 应用入口
-├── main.jsx          # React 入口
-└── index.css         # 全局样式
+├── components/          # 可复用组件
+├── lib/                 # 工具函数和配置
+├── pages/               # 页面组件
+├── App.jsx              # 应用入口
+├── main.jsx             # React 入口
+├── useResizable.js      # 自定义 Hook：拖拽调节侧边栏宽度
+└── index.css            # 全局样式
+
 ```
 
 ## 测试
