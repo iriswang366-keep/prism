@@ -1,0 +1,28 @@
+name: Prism database health check
+
+on:
+  schedule:
+    # UTC; 09:17, 17:17, and 01:17 Asia/Shanghai. Off the busy hour boundary.
+    - cron: '17 1,9,17 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prism-database-healthcheck
+  cancel-in-progress: false
+
+jobs:
+  check-database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      # actions/checkout v4.2.2, pinned to an immutable commit.
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Query database with public application credentials
+        env:
+          PRISM_SUPABASE_PUBLIC_KEY: ${{ vars.PRISM_SUPABASE_PUBLIC_KEY }}
+        run: node scripts/supabase-healthcheck.mjs
